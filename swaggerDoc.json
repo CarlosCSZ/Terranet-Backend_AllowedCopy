@@ -1,0 +1,1179 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "TERRANET NODEJS - privateAPI 1.0",
+    "description": "This is an NodeJS App that provides services to a web application that manages the communication and payment between a telecommucation business and its costumers. \n This is a copy from the original project allowed by Maverick (@lusis-developers)",
+    "contact": {
+      "email": "ccherrez18@gmail.com"
+    },
+    "license": {
+      "name": "ISC",
+      "url": "https://opensource.org/licenses/ISC"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "businessPlan",
+      "description": "Operation for requeest a business plan"
+    },
+    {
+      "name": "hirePlan",
+      "description": "Operations about hiring plans"
+    },
+    {
+      "name": "excelFile",
+      "description": "manage costumers datas from excel documents"
+    },
+    {
+      "name": "payment",
+      "description": "billing and status control"
+    },
+    {
+      "name": "capacity",
+      "description": "manage the storing of images"
+    },
+    {
+      "name": "hero",
+      "description": "manage the storing of images"
+    },
+    {
+      "name": "cvFile",
+      "description": "manage the storing of documents"
+    },
+    {
+      "name": "workWithUs",
+      "description": "Operations about jobs request"
+    },
+    {
+      "name": "jobVacancies",
+      "description": "Operations about job vancancies"
+    }
+  ],
+  "paths": {
+    "/businessPlan": {
+      "get": {
+        "tags": ["businessPlan"],
+        "summary": "Returns requestments history",
+        "description": "Returns the history of the application for a business plan",
+        "operationId": "getHistory",
+        "security":[
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/businessPlan"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Items Not found",
+            "content": {
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "businessPlan"
+        ],
+        "summary": "send a requestment for a business plan",
+        "description": "the costumer send information terranet needs in order to satisfy the requestment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/businessPlanCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/businessPlan"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error Creating Items",
+            "content": {
+            }
+          }
+        }
+      }
+    },
+    "/hiringPlan": {
+      "get": {
+        "tags": ["hirePlan"],
+        "summary": "Returns the hiring requestment history",
+        "description": "Returns the history of requestments",
+        "security":[
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hiringPlan"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Items Not found",
+            "content": {
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["hirePlan"],
+        "summary": "Request to hire a plan",
+        "description": "Costumers request to hire a plan",
+        "operationId": "post a requestment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/hiringPlanCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "403": {
+            "description": "Error Creating Plan",
+            "content": {
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/hiringPlan/{Id}": {
+      "get": {
+        "tags": [
+          "hirePlan"
+        ],
+        "summary": "Find a hiring requestment by ID",
+        "description": "use a database id to find the respective data",
+        "operationId": "get request by id",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Mongo Id of item that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security":[
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hiringPlan"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Item Not found",
+            "content": {
+            }
+          }
+        }
+      }
+    },
+    "/excelFile": {
+      "post": {
+        "tags": ["excelFile"],
+        "summary": "Upload costumers data from excel",
+        "description": "Upload the costumers payment report from excel using multer and manage the data to store it on the database",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/excel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error Creating Items"
+          },
+          "500": {
+            "description": "processing timeout"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/payment": {
+      "get": {
+        "tags": ["payment"],
+        "summary": "Returns the payment report from all costumers",
+        "description": "Returns a list of all of the costumers with its payment status",
+        "operationId": "get payment report",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Users not found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["payment"],
+        "summary": "Post a costumer report from the client",
+        "description": "add the payment report from a new costumer",
+        "operationId": "post payment report",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/paymentCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "403": {
+            "description": "Error Creating history"
+          }
+        }
+      }
+    },
+    "/payment/{ci}": {
+      "get": {
+        "tags": ["payment"],
+        "summary": "Find a payment report by id ci",
+        "description": "Returns a payment report by the costumers c.i.",
+        "parameters": [
+          {
+            "name": "ci",
+            "in": "path",
+            "description": "C.I of the costumbers that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["payment"],
+        "summary": "update a costumer report from the client",
+        "description": "find a costumers the payment report by the costumer ci and update one or more fields of the data, filling the rest of the fields with the actual values",
+        "operationId": "Update payment report",
+        "parameters": [
+          {
+            "name": "ci",
+            "in": "path",
+            "description": "C.I of the costumbers that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/paymentUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/paymentDone"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error updating status"
+          }
+        }
+      }
+    },
+    "/capacity": {
+      "get": {
+        "tags": ["capacity"],
+        "summary": "Returns a sgined url from AWS bucket to show last posted image",
+        "description": "Returns a signed url that allows to get the last uploaded image to AWS",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/signedUrl"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["capacity"],
+        "summary": "Send an image to AWS bucket",
+        "description": "Upload an imagen to AWS and delete the previous data from the collection leaving the data onlyy from the uploaded image",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/capacityCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/capacity"
+                }
+              }
+            }
+          },
+          "403":{
+            "description": "Error uploading file"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/hero": {
+      "get": {
+        "tags": ["hero"],
+        "summary": "Returns a sgined url from AWS bucket to show last posted image",
+        "description": "Returns a signed url that allows to get the last uploaded image to AWS",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/signedUrl"
+                }
+              }
+            }
+          },
+          "403":{
+            "description": "Item not found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["hero"],
+        "summary": "Send an image to AWS bucket",
+        "description": "Upload an imagen to AWS and delete the previous data from the collection leaving the data onlyy from the uploaded image",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/capacityCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/capacity"
+                }
+              }
+            }
+          },
+          "403":{
+            "description": "Error uploading file"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/cvFile": {
+      "post": {
+        "tags": ["cvFile"],
+        "summary": "Send a costumers cv document to AWS Bucket",
+        "description": "upload the document using multer and then send it to a AWS Bucket.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/capacityCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/cvFile"
+                }
+              }
+            }
+          },
+          "403":{
+            "description": "Error uploading file"
+          }
+        }
+      }
+    },
+    "/workWUs": {
+      "get": {
+        "tags": ["workWithUs"],
+        "summary": "Returns a list of people who are applying for some posted job vacancy",
+        "description": "Returns a list of all people applying for a job",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/workwithusGET"
+                }
+              }
+            }
+          },
+          "403":{
+            "description": "Request not found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["workWithUs"],
+        "summary": "A costumer can apply for a posted job vacancy",
+        "description": "Send the personal information requested for the company in order to apply to some job vacancy. And at the same time send the information and the uploaded cv file (on cvFile endpoint) to the business human resources area mail using sendgrid",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/workwithusPOST"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/workwithusGET"
+                }
+              }
+            }
+          },
+          "403":{
+            "description": "Error Creating application"
+          }
+        }
+      }
+    },
+    "/jobVacs": {
+      "get": {
+        "tags": ["jobVacancies"],
+        "summary": "Returns the available job vacancies",
+        "description": "Returns a list of job vanacies posted by the company",
+        "operationId": "Get a list a jobs available",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/jobVacancies"
+                }
+              }
+            }
+          },
+          "403":{
+            "description": "Items Not found"
+          }
+        }
+      },
+      "post": {
+        "tags": ["jobVacancies"],
+        "summary": "send a requestment for a business plan",
+        "description": "the costumer send information terranet needs in order to satisfy the requestment",
+        "operationId": "Post a job vacancy",
+        "parameters": [
+          {
+            "name": "Bearer token",
+            "in": "header",
+            "description": "Token from user session",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/jobVacancies"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/jobVacs/{id}": {
+      "get": {
+        "tags": ["jobVacancies"],
+        "summary": "Returns one available job vacancy",
+        "description": "finds one job vanacy posted by the job ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The job ID that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/jobVacancies"
+                }
+              }
+            }
+          },
+          "403":{
+            "description":"Item Not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["jobVacancies"],
+        "summary": "Upload one job vacancy",
+        "description": "find a job vacancy by its ID and update one or more fields of the data, filling the rest of the fields with the actual values",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "C.I of the costumbers that needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/jobVacanciesCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/jobVacancies"
+                }
+              }
+            }
+          },
+          "403":{
+            "description": "Error posting a job"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "businessPlan": {
+        "type": "object",
+        "properties": {
+          "_id":{
+            "type": "uuid",
+            "example": "mongo ObjectID"
+          },
+          "ruc": {
+            "type": "string",
+            "example": 98542135
+          },
+          "name": {
+            "type": "string",
+            "example": "Alberto"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "alberto@gmail.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": 945694512
+          },
+          "devices": {
+            "type": "object",
+            "description": "number of devices",
+            "example": {
+              "computers": 5,
+              "tabletsPhones": 4,
+              "smartTv": 2
+            }
+          }
+        }
+      },
+      "businessPlanCreate": {
+        "type": "object",
+        "properties": {
+          "ruc": {
+            "type": "string",
+            "example": 98542135
+          },
+          "name": {
+            "type": "string",
+            "example": "Alberto"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "alberto@gmail.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": 945694512
+          },
+          "devices": {
+            "type": "object",
+            "description": "number of devices",
+            "example": {
+              "computers": 5,
+              "tabletsPhones": 4,
+              "smartTv": 2
+            }
+          }
+        }
+      },
+      "hiringPlan": {
+        "type": "object",
+        "properties": {
+          "_id":{
+            "type": "uuid",
+            "example": "mongo ObjectId"
+          },
+          "plan": {
+            "type": "object",
+            "description": "chosen plan from costumer",
+            "example": {
+              "name": "super plan",
+              "price": "35.9",
+              "speed": 60
+            }
+          },
+          "discountedCode": {
+            "type": "string",
+            "example": "10%"
+          },
+          "ci": {
+            "type": "string",
+            "example": 984258512
+          },
+          "name": {
+            "type": "string",
+            "example": "Miguel"
+          },
+          "email": {
+            "type": "string",
+            "example": "miguel@gmail.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": 945694512
+          },
+          "address": {
+            "type": "string",
+            "example": "La Alborada"
+          }
+        }
+      },
+      "hiringPlanCreate": {
+        "type": "object",
+        "properties": {
+          "plan": {
+            "type": "object",
+            "description": "chosen plan from costumer",
+            "example": {
+              "name": "super plan",
+              "price": "35.9",
+              "speed": 60
+            }
+          },
+          "discountedCode": {
+            "type": "string",
+            "example": "10%"
+          },
+          "ci": {
+            "type": "string",
+            "example": 984258512
+          },
+          "name": {
+            "type": "string",
+            "example": "Miguel"
+          },
+          "email": {
+            "type": "string",
+            "example": "miguel@gmail.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": 945694512
+          },
+          "address": {
+            "type": "string",
+            "example": "La Alborada"
+          }
+        }
+      },
+      "excel":{
+        "type": "object",
+        "properties":{
+          "excelFile":{
+            "type":"string",
+            "required": true,
+            "format": "binary"
+          }
+        }
+      },
+      "payment": {
+        "type": "object",
+        "properties": {
+          "_id":{
+            "type":"uuid",
+            "example": "mongo ObjectID"
+          },
+          "name": {
+            "type": "string",
+            "example": "Adair Sebastian"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "sentillana Lopez"
+          },
+          "ci": {
+            "type": "string",
+            "example": 987654321
+          },
+          "cutOffData": {
+            "type": "string",
+            "example": "12/12/2022"
+          },
+          "value": {
+            "type": "string",
+            "example": "164.7"
+          },
+          "paymentDone": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "paymentCreate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Adair Sebastian"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "sentillana Lopez"
+          },
+          "ci": {
+            "type": "string",
+            "example": 987654321
+          },
+          "cutOffData": {
+            "type": "string",
+            "example": "12/12/2022"
+          },
+          "value": {
+            "type": "string",
+            "example": "164.7"
+          },
+          "paymentDone": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "paymentUpdate": {
+        "type": "object",
+        "properties": {
+          "paymentDone": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "paymentDone": {
+        "type": "object",
+        "properties": {
+          "_id":{
+            "type":"uuid",
+            "example": "mongo ObjectID"
+          },
+          "name": {
+            "type": "string",
+            "example": "Adair Sebastian"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "sentillana Lopez"
+          },
+          "ci": {
+            "type": "string",
+            "example": 987654321
+          },
+          "cutOffData": {
+            "type": "string",
+            "example": "12/12/2022"
+          },
+          "value": {
+            "type": "string",
+            "example": "164.7"
+          },
+          "paymentDone": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "capacity": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/files.terranet/file-1669506095987-image-1.png"
+          },
+          "filename": {
+            "type": "string",
+            "example": "file-1669506095987-image-1.png"
+          }
+        }
+      },
+      "capacityCreate": {
+        "type": "object",
+        "properties": {
+          "capacityFile": {
+            "type": "string",
+            "required": true,
+            "format":"binary"
+          }
+        }
+      },
+      "cvFile": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/files.terranet/file-1669506095987-cvCarmenCastro.pdf"
+          },
+          "filename": {
+            "type": "string",
+            "example": "file-1669506095987-cvCarmenCastro.pdf"
+          }
+        }
+      },
+      "signedUrl": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "example": "https://s3.us-east-1.amazonaws.com/files.terranet/file-1669506095987-image-1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAZXIED57LBEF22AMZ%2F20221201%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20221201T042415Z&X-Amz-Expires=600&X-Amz-Signature=b68432b8ecb85a3848f90544af5ac206f750f90c03ea24d97b0d61fd53cc73c0&X-Amz-SignedHeaders=host&x-id=GetObject"
+          }
+        }
+      },
+      "workwithusGET": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "mongo ObjectID"
+          },
+          "name": {
+            "type": "string",
+            "example": "Juan"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Cabrera"
+          },
+          "id": {
+            "type": "string",
+            "example": 94156237
+          },
+          "address": {
+            "type": "string",
+            "example": "Alborada 13era etapa"
+          },
+          "email": {
+            "type": "string",
+            "example": "juan@cabrera.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": 987456123
+          },
+          "vacant": {
+            "type": "string",
+            "description": "This vacant information is taken from the information send at jobVacancies get endpoint",
+            "example": "recepcionista"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/files.terranet/cvFile/file-1662774898890-31289.pdf"
+          }
+        }
+      },
+      "workwithusPOST": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "631beed91a9adb718fb24b78"
+          },
+          "name": {
+            "type": "string",
+            "example": "Juan"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Cabrera"
+          },
+          "id": {
+            "type": "string",
+            "example": "094156237"
+          },
+          "address": {
+            "type": "string",
+            "example": "Alborada 13era etapa"
+          },
+          "email": {
+            "type": "string",
+            "example": "juan@cabrera.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "0987456123"
+          },
+          "vacant": {
+            "type": "string",
+            "description": "This vacant information is taken from the information send at jobVacancies get endpoint",
+            "example": "recepcionista"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/files.terranet/cvFile/file-1662774898890-31289.pdf"
+          }
+        }
+      },
+      "jobVacancies": {
+        "type": "object",
+        "properties": {
+          "_id":{
+            "type":"uuid",
+            "example": "mongo ObjectID"
+          },
+          "jobvacancy": {
+            "type": "string",
+            "example": "manager de finanzas"
+          },
+          "jobDescription": {
+            "type": "string",
+            "example": "Manejo de herramientas de presentación y excelente manejo de equipo laboral"
+          },
+          "jobRequirements": {
+            "type": "string",
+            "example": "se require +3 años de experiencia en el area"
+          }
+        }
+      },
+      "jobVacanciesCreate": {
+        "type": "object",
+        "properties": {
+          "jobvacancy": {
+            "type": "string",
+            "example": "manager de finanzas"
+          },
+          "jobDescription": {
+            "type": "string",
+            "example": "Manejo de herramientas de presentación y excelente manejo de equipo laboral"
+          },
+          "jobRequirements": {
+            "type": "string",
+            "example": "se require +3 años de experiencia en el area"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "example": 200
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "Authorization",
+        "name": "api_key",
+        "in": "header"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "in": "header"
+      }
+    }
+  }
+}
