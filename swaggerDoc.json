@@ -1071,10 +1071,6 @@
       "workwithusPOST": {
         "type": "object",
         "properties": {
-          "_id": {
-            "type": "string",
-            "example": "631beed91a9adb718fb24b78"
-          },
           "name": {
             "type": "string",
             "example": "Juan"

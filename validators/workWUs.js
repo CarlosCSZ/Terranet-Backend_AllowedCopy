@@ -10,6 +10,7 @@ const validatorCreate = [
   check('phone').exists().notEmpty().isLength(10),
   check('vacant').exists().notEmpty(),
   check('url').exists().notEmpty(),
+  check('filename').exists().notEmpty(),
   (req, res, next) => {
     return validateResults(req, res, next);
   },

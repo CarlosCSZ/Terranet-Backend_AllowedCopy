@@ -8,7 +8,7 @@ const checkRol = require('../middlewares/handleRoles');
 
 router.get("/", authMiddleware, checkRol(["admin"]), getItems);
 
-router.get("/:id", getItem);
+router.get("/:ci", getItem);
 
 router.post("/", validatorCreate, createItem);
 
