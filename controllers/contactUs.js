@@ -15,8 +15,7 @@ const getItems = async (req,res) => {
 
 const getItem = async (req, res) => {
   try{
-    req = matchedData(req);
-    const { id } = req;
+    const { id } = matchedData(req);
     const data = await contactWithUsModel.findById(id);
     res.send({ data });
   }catch (e) {
@@ -49,8 +48,7 @@ const updateItem = async (req, res) => {
 
 const deleteItem = async (req, res) => {
   try {
-    req = matchedData(req);
-    const { id } = req;
+    const { id } = matchedData(req);
     const data = await contactWithUsModel.deleteOne({_id:id});
     res.send({ data });
   }catch (e) {

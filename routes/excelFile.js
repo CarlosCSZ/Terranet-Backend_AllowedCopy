@@ -13,7 +13,7 @@ router.get("/:id", validatorGet, getItem);
 
 router.post("/", authMiddleware, checkRol(["admin"]), uploadMiddleware.single('excel'), createItem);
 
-router.put("/", authMiddleware, checkRol(["admin"]), uploadMiddleware.single('excel'), updateItem);
+// router.put("/", authMiddleware, checkRol(["admin"]), uploadMiddleware.single('excel'), updateItem);
 
 router.delete("/:id", authMiddleware, checkRol(["admin"]), validatorDelete, deleteItem);
 
