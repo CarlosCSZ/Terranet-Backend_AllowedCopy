@@ -1,12 +1,13 @@
-# TERRANET BACKEND
-This is a monorepo project for a internet service company.<br />
-This backend project provides their courses content, information, profile details, setup and handle their own profiles and/or institutions.<br />
+# TERRANET BACKEND - allowed copy
+This is a monorepo project for an internet service company.<br />
+This backend project provides the company with a communication, subscription tatus, and payment system.<br />
 
 ## 📒 Dependencies
 
-1. Node.js 
+Node.js 
 
    Download and install node.js in your computer using the following page [][Node official page] (https://https://nodejs.org/en/).
+
 
 ## 📝 Quick guide for local development
 
@@ -14,12 +15,12 @@ This backend project provides their courses content, information, profile detail
   
    ```sh 
    ***Using HTTPS***
-   git clone https://github.com/lusis-developers/nabux-backend.git
+   git clone https://github.com/lualreye/terranet-backend.git
 
    ***Using SSH KEY***
    -Create and add ssh key in your computer.<br />
    -Attach your public ssh key into your GitHub account and write the following command.<br />
-   git clone git@github.com:lusis-developers/nabux-backend.git
+   git clone git@github.com:lualreye/terranet-backend.git
    ```
 
 2. Install dependencies 
@@ -39,23 +40,16 @@ This backend project provides their courses content, information, profile detail
    vim .env
    ```
 
-4. Start a Docker container
-
-   ```sh
-   docker-compose up -d mongodb
-   ```
-
-
-5. Start the Backend app
+4. Start the Backend app
 
    ```sh
    # From the root directory
    npm run dev
    ```
 
-   The app will be listenning at the following url http://localhost:3001/courses
+   The app will be listenning at the following url http://localhost:3001/
 
-6. Install new dependencies 
+5. Install new dependencies 
 
     ```sh
    # From the root directory
@@ -67,7 +61,7 @@ This backend project provides their courses content, information, profile detail
 ## 📂 API Documentation
 
 *****
-Once you start the app, the documentation will be available on the following url: http://localhost:3001/courses/api-doc
+Once you start the app, the documentation will be available on the following url: http://localhost:3001/api-documentation
 
 DOCUMENTING A NEW ENDPOINT
 
@@ -76,7 +70,7 @@ DOCUMENTING A NEW ENDPOINT
      "name": "profiles",<br />
      "description": "operations for managing users profiles"
 
-   2. Go to "paths" section and add the path termination that goes after "http://localhost:3001/courses/{path}"
+   2. Go to "paths" section and add the path termination that goes after "http://localhost:3001/{path}"
 
    3. Add all statics methods for the endpoint specifing the tag where it should be, a summary, a description, parameters and responses of these methods.
 
