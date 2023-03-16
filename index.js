@@ -12,7 +12,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use(express.static("cvFile"));
-app.use(express.static("images"));
 
 const port = process.env.PORT || 3000;
 const swagerDoc = require('./swaggerDoc.json');

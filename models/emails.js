@@ -1,19 +1,18 @@
 const mongoose = require('mongoose');
 
 const emailsSchema = new mongoose.Schema(
-    {
-        email:{
-            type: String,
-        },
-        subject:{
-            type: String,
-        } 
+  {
+    email:{
+      type: String,
     },
-    {
-        timestamps: true,
-        versionKey: false,
-    },
-    
+    subject:{
+      type: String,
+    }
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
 );
 
 module.exports = mongoose.model("emails", emailsSchema);
