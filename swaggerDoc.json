@@ -170,12 +170,7 @@
             "content": {
             }
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/hiringPlan/{Id}": {
