@@ -11,6 +11,5 @@
       "src": "/api/jobVacs(.*)",
       "dest": "/routes/index.js"
     }
-  ],
-  "cleanUrls": true
+  ]
 }
