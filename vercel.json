@@ -8,8 +8,8 @@
   ],
   "routes": [
     {
-      "src": "/(.js)",
-      "dest": "/"
+      "src": "/api/jobVacs(.*)",
+      "dest": "/routes/index.js"
     }
   ],
   "cleanUrls": true
