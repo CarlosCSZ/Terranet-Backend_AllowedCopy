@@ -5,12 +5,5 @@
       "src": "./index.js",
       "use": "@vercel/node"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/jobVacs(.*)",
-      "dest": "/routes/index.js"
-    }
-  ],
-  "cleanUrls": true
+  ]
 }
